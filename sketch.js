@@ -18,6 +18,9 @@ function setup() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  // Keep button within canvas
+  movingBtn.x = min(movingBtn.x, windowWidth - movingBtn.w);
+  movingBtn.y = min(movingBtn.y, windowHeight - movingBtn.h);
 }
 
 class Button {
