@@ -1,12 +1,19 @@
 let movingBtn;
+let btnWidth = 80;
+let btnHeight = 36;
 let btnFill = "white";
 let btnTextFill = "black";
 let btnTextSize = 16;
 let bgColor = 220;
 
+let clickCount = 0;
+let misclickCount = 0;
+let lastClickDate = new Date().getTime(); // Time at which button was last clicked
+let lastClickTime = 0; // Time taken to click button in milliseconds
+
 function setup() {
   createCanvas();
-  movingBtn = new Button("Click me!", (width-80)/2, (height-36)/2, 80, 36, moveButton);
+  movingBtn = new Button("Click me!", (width-btnWidth)/2, (height-btnHeight)/2, btnWidth, btnHeight, moveButton);
 }
 
 class Button {
@@ -14,7 +21,6 @@ class Button {
     this.t = t;
     this.x = x;
     this.y = y;
-    this.size = w;
     this.w = w;
     this.h = h;
     this.btnFill = btnFill;
@@ -38,21 +44,43 @@ class Button {
 }
 
 function moveButton() {
-  this.x = Math.random() * (width - this.w);
-  this.y = Math.random() * (height - this.h);
+  this.x = round(Math.random() * (width - this.w));
+  this.y = round(Math.random() * (height - this.h));
 }
 
 function checkClick(btn) {
   if (mouseX > btn.x && mouseX < btn.x + btn.w && mouseY > btn.y && mouseY < btn.y + btn.h) {
+    clickCount++;
+    let date = new Date().getTime();
+    lastClickTime = date - lastClickDate;
+    lastClickDate = date;
     btn.onClick();
+  }
+  else {
+    misclickCount++;
   }
 }
 
 function draw() {
   background(bgColor);
+  let textX = width - 20;
+  let textY = 20;
+  
+  textAlign(RIGHT, CENTER);
+
   textStyle("bold");
-  text("Fitts' Law Experiment", width/2, 20);
+  text("Fitts' Law Experiment", textX, textY+=20);
   textStyle("normal");
+
+  text("Canvas size: " + width + "×" + height, textX, textY+=20);
+  text("Button size: " + movingBtn.w + "×" + movingBtn.h, textX, textY+=20);
+  text("Button position: " + movingBtn.x + "," + movingBtn.y, textX, textY+=20);
+  text("Mouse position: " + mouseX + "," + mouseY, textX, textY+=20);
+  text("Successful clicks: " + clickCount, textX, textY+=20);
+  text("Misclicks: " + misclickCount, textX, textY+=20);
+  text("Total clicks: " + (clickCount + misclickCount), textX, textY+=20);
+  text("Accuracy: " + round(clickCount / max(clickCount + misclickCount, 1) * 100, 2) + "%", textX, textY+=20);
+  text("Last click time: " + lastClickTime + "ms", textX, textY+=20);
   movingBtn.show();
 }
 
