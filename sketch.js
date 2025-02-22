@@ -12,8 +12,12 @@ let lastClickDate = new Date().getTime(); // Time at which button was last click
 let lastClickTime = 0; // Time taken to click button in milliseconds
 
 function setup() {
-  createCanvas();
+  createCanvas(windowWidth, windowHeight);
   movingBtn = new Button("Click me!", (width-btnWidth)/2, (height-btnHeight)/2, btnWidth, btnHeight, moveButton);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 class Button {
