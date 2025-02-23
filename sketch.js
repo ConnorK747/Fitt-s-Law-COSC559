@@ -61,6 +61,8 @@ function moveButton() {
 }
 
 function checkClick(btn) {
+  let d = dist(mouseX, mouseY, btn.x + btn.w / 2, btn.y + btn.h / 2);
+
   if (mouseX > btn.x && mouseX < btn.x + btn.w && mouseY > btn.y && mouseY < btn.y + btn.h) {
     clickCount++;
     let date = new Date().getTime();
