@@ -10,10 +10,15 @@ let clickCount = 0;
 let misclickCount = 0;
 let lastClickDate = new Date().getTime(); // Time at which button was last clicked
 let lastClickTime = 0; // Time taken to click button in milliseconds
+let clickData = []; // Array to store click data
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   movingBtn = new Button("Click me!", (width-btnWidth)/2, (height-btnHeight)/2, btnWidth, btnHeight, moveButton);
+
+  let exportBtn = createButton("Export Data");
+  exportBtn.position(20, 20);
+  exportBtn.mousePressed(exportData);
 }
 
 function windowResized() {
@@ -60,6 +65,16 @@ function checkClick(btn) {
     clickCount++;
     let date = new Date().getTime();
     lastClickTime = date - lastClickDate;
+
+    clickData.push({
+      trial: clickCount,
+      buttonSize: { width: btn.w, height: btn.h },
+      buttonPosition: { x: btn.x, y: btn.y },
+      cursorPosition: { x: mouseX, y: mouseY },
+      distance: d,
+      clickTime: lastClickTime
+    });
+    
     lastClickDate = date;
     btn.onClick();
   }
@@ -97,3 +112,20 @@ function mousePressed() {
 function mouseReleased() {
   movingBtn.btnFill = btnFill;
 }
+
+function exportData() {
+  let exportObj = {
+    experimentInfo: {
+      canvasSize: { width: width, height: height },
+      buttonSize: { width: btnWidth, height: btnHeight },
+      totalClicks: clickCount + misclickCount,
+      successfulClicks: clickCount,
+      misclicks: misclickCount,
+      accuracy: round((clickCount / max(clickCount + misclickCount, 1)) * 100, 2) + "%"
+    },
+    clickDetails: clickData
+  };
+
+  saveJSON(exportObj, "fitts_law_experiment_data.json");
+}
+
