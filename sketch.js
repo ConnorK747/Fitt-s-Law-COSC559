@@ -24,13 +24,13 @@ function setup() {
 
 function keyPressed() {
   if (key === '=' || key === '+') {
-    movingBtn.w = min(movingBtn.w * 1.25, 500); // Ensure a minimum width of 20
-    movingBtn.h = min(movingBtn.h * 1.25, 180); // Ensure a minimum height of 10
-    btnTextSize = min(btnTextSize * 1.25, 80);
+    movingBtn.w = min(movingBtn.w * Math.sqrt(2), 320); // Ensure a maximum width of 320
+    movingBtn.h = min(movingBtn.h * Math.sqrt(2), 144); // Ensure a maximum height of 144
+    btnTextSize = min(btnTextSize * Math.sqrt(2), 64);  // Ensure a maximum text size of 64
   } else if (key === '-' || key === '_') {
-    movingBtn.w = max(movingBtn.w / 1.25, 20); // Ensure a minimum width of 20
-    movingBtn.h = max(movingBtn.h / 1.25, 9); // Ensure a minimum height of 10
-    btnTextSize = max(btnTextSize / 1.25, 4); 
+    movingBtn.w = max(movingBtn.w / Math.sqrt(2), 20);  // Ensure a minimum width of 20
+    movingBtn.h = max(movingBtn.h / Math.sqrt(2), 9);   // Ensure a minimum height of 9
+    btnTextSize = max(btnTextSize / Math.sqrt(2), 4);   // Ensure a minimum text size of 4
   }
 }
 
@@ -119,7 +119,7 @@ function draw() {
   textStyle("normal");
 
   text("Canvas size: " + width + "×" + height, textX, textY+=20);
-  text("Button size: " + movingBtn.w + "×" + movingBtn.h, textX, textY+=20);
+  text("Button size: " + round(movingBtn.w) + "×" + round(movingBtn.h), textX, textY+=20);
   text("Button position: " + movingBtn.x + "," + movingBtn.y, textX, textY+=20);
   text("Mouse position: " + mouseX + "," + mouseY, textX, textY+=20);
   text("Successful clicks: " + clickCount, textX, textY+=20);
