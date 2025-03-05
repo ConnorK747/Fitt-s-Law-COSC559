@@ -22,6 +22,18 @@ function setup() {
   exportBtn.mousePressed(exportData);
 }
 
+function keyPressed() {
+  if (key === '+') {
+    movingBtn.w = min(movingBtn.w * 1.25, 500); // Ensure a minimum width of 20
+    movingBtn.h = min(movingBtn.h * 1.25, 180); // Ensure a minimum height of 10
+    btnTextSize = min(btnTextSize * 1.25, 80);
+  } else if (key === '-') {
+    movingBtn.w = max(movingBtn.w / 1.25, 20); // Ensure a minimum width of 20
+    movingBtn.h = max(movingBtn.h / 1.25, 9); // Ensure a minimum height of 10
+    btnTextSize = max(btnTextSize / 1.25, 4); 
+  }
+}
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   // Keep button within canvas
@@ -102,6 +114,7 @@ function draw() {
   textAlign(RIGHT, CENTER);
 
   textStyle("bold");
+  textSize(16);
   text("Fitts' Law Experiment", textX, textY+=20);
   textStyle("normal");
 
