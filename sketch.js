@@ -127,6 +127,7 @@ function draw() {
   text("Total clicks: " + (clickCount + misclickCount), textX, textY+=20);
   text("Accuracy: " + round(clickCount / max(clickCount + misclickCount, 1) * 100, 2) + "%", textX, textY+=20);
   text("Last click time: " + lastClickTime + "ms", textX, textY+=20);
+  text("'-' or '+' keys to change button size", textX, textY+=20);
   movingBtn.show();
 }
 
