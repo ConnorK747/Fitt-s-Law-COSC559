@@ -69,7 +69,7 @@ function checkClick(btn) {
   let buttonCenterX = btn.x + btn.w / 2;
   let buttonCenterY = btn.y + btn.h / 2;
 
-  // Calculate distance from initial cursor position to button center
+  // Calculate distance from initial cursor position to button center (Fitts' Law distance)
   let movementDistance = dist(initialCursorX, initialCursorY, buttonCenterX, buttonCenterY);
 
   if (mouseX > btn.x && mouseX < btn.x + btn.w && mouseY > btn.y && mouseY < btn.y + btn.h) {
