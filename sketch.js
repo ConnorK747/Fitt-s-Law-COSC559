@@ -11,6 +11,7 @@ let misclickCount = 0;
 let lastClickDate = new Date().getTime(); // Time at which button was last clicked
 let lastClickTime = 0; // Time taken to click button in milliseconds
 let clickData = []; // Array to store click data
+let initialCursorX, initialCursorY; // Stores initial cursor position when button appears
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -58,10 +59,18 @@ class Button {
 function moveButton() {
   this.x = round(Math.random() * (width - this.w));
   this.y = round(Math.random() * (height - this.h));
+  
+  // Store initial cursor position when the button moves
+  initialCursorX = mouseX;
+  initialCursorY = mouseY;
 }
 
 function checkClick(btn) {
-  let d = dist(mouseX, mouseY, btn.x + btn.w / 2, btn.y + btn.h / 2);
+  let buttonCenterX = btn.x + btn.w / 2;
+  let buttonCenterY = btn.y + btn.h / 2;
+
+  // Calculate distance from initial cursor position to button center
+  let movementDistance = dist(initialCursorX, initialCursorY, buttonCenterX, buttonCenterY);
 
   if (mouseX > btn.x && mouseX < btn.x + btn.w && mouseY > btn.y && mouseY < btn.y + btn.h) {
     clickCount++;
@@ -72,8 +81,8 @@ function checkClick(btn) {
       trial: clickCount,
       buttonSize: { width: btn.w, height: btn.h },
       buttonPosition: { x: btn.x, y: btn.y },
-      cursorPosition: { x: mouseX, y: mouseY },
-      distance: d,
+      initialCursorPosition: { x: initialCursorX, y: initialCursorY },
+      movementDistance: movementDistance, // Correctly recorded movement distance
       clickTime: lastClickTime
     });
     
@@ -130,4 +139,3 @@ function exportData() {
 
   saveJSON(exportObj, "fitts_law_experiment_data.json");
 }
-
