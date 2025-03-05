@@ -23,11 +23,11 @@ function setup() {
 }
 
 function keyPressed() {
-  if (key === '+') {
+  if (key === '=' || key === '+') {
     movingBtn.w = min(movingBtn.w * 1.25, 500); // Ensure a minimum width of 20
     movingBtn.h = min(movingBtn.h * 1.25, 180); // Ensure a minimum height of 10
     btnTextSize = min(btnTextSize * 1.25, 80);
-  } else if (key === '-') {
+  } else if (key === '-' || key === '_') {
     movingBtn.w = max(movingBtn.w / 1.25, 20); // Ensure a minimum width of 20
     movingBtn.h = max(movingBtn.h / 1.25, 9); // Ensure a minimum height of 10
     btnTextSize = max(btnTextSize / 1.25, 4); 
